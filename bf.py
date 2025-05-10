@@ -1,15 +1,4 @@
 from dataclasses import dataclass
-from enum import Enum, auto
-
-class Inst(Enum):
-    inc = auto()
-    dec = auto()
-    left = auto()
-    right = auto()
-    byte_get = auto()
-    byte_put = auto()
-    block_start = auto()
-    block_end = auto()
 
 @dataclass
 class State:
@@ -49,20 +38,20 @@ class State:
         print(chr(self.memory[self.pointer]), end='')
         self.next()
 
-    def block_start(self): # [
+    def block_start(self):
         self.push()
         self.next()
 
-    def block_end(self): # ]
+    def block_end(self):
         if self.memory[self.pointer] != 0:
             self.pop()
         else:
             self.next()
 
-    def push(self):
+    def push(self): # [
         self.stack.append(self.pc)
 
-    def pop(self):
+    def pop(self): # ]
         self.pc = self.stack.pop()
 
     def next(self):
@@ -70,11 +59,16 @@ class State:
 
     def step(self):
         match self.program[self.pc]:
-            case '+': self.inc()
-            case '-': self.dec()
-            case '<': self.left()
-            case '>': self.right()
-            case '.': self.put_byte()
+            case '+':
+                self.inc()
+            case '-':
+                self.dec()
+            case '<':
+                self.left()
+            case '>':
+                self.right()
+            case '.':
+                self.put_byte()
             case ',': self.get_byte()
             case '[': self.block_start()
             case ']': self.block_end()
@@ -84,9 +78,10 @@ class State:
         while self.pc < len(self.program):
             self.step()
 
+
 state = State()
-state.program = '''
-++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
-'''
+state.program = '''>++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<+
++.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-
+]<+.'''
 state.run()
 print()
