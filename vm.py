@@ -1,143 +1,94 @@
-from enum import Enum, auto
 from dataclasses import dataclass
+from sys import stdin, stdout
+
+INC = '+'
+DEC = '-'
+LEFT = '<'
+RIGHT = '>'
+WRITE = '.'
+READ = ','
+JMP_ZERO = '['
+JMP_NZERO = ']'
+
+@dataclass
+class Op:
+    op: int
+    arg: int | None = None
 
 @dataclass
 class Machine:
+    data = [0] * (2 << 20)
+    dc: int = 0
+
     program = []
-    memory = [0] * 1024 * 1024
-    stack = [0] * 1024 * 1024
-    sp = 0 # stack pointer
+    pc: int = 0
 
-    # regs
-    dc = 0 # data counter
-    pc = 0 # program counter
+    def step(self):
+        assert self.pc < len(self.program)
 
-    # flag
-    halt = 0
-
-    def push(self, n):
-        self.stack[self.sp] = n
-        self.sp += 1
-
-    def pop(self):
-        self.sp -= 1
-        return self.stack[self.sp]
-
-    def step(self): # cpu cycle
+        # fetch
         inst = self.program[self.pc]
+        self.pc += 1
 
-        if inst == ins('halt'):
-            self.halt = True
-        elif inst == ins('left'):
+        # execute
+        if inst.op == ord(INC):
+            self.data[self.dc] += 1
+            self.data[self.dc] %= 0xff
+        elif inst.op == ord(DEC):
+            self.data[self.dc] -= 1
+            self.data[self.dc] %= 0xff
+        elif inst.op == ord(LEFT):
             self.dc -= 1
-            self.dc %= len(self.memory)
-            self.pc += 1
-        elif inst == ins('right'):
+            self.dc %= len(self.data)
+        elif inst.op == ord(RIGHT):
             self.dc += 1
-            self.dc %= len(self.memory)
-            self.pc += 1
-        elif inst == ins('inc'):
-            self.memory[self.dc] += 1
-            self.memory[self.dc] %= 0xff
-            self.pc += 1
-        elif inst == ins('dec'):
-            self.memory[self.dc] -= 1
-            self.memory[self.dc] %= 0xff
-            self.pc += 1
-        elif inst == ins('int_input'):
-            self.memory[self.dc] = int(input())
-            self.pc += 1
-        elif inst == ins('int_output'):
-            n = self.memory[self.dc]
-            print(f"{chr(n)}", end='')
-            self.pc += 1
-        elif inst == ins('int_output_int'):
-            n = self.memory[self.dc]
-            print(f"{n}")
-            self.pc += 1
-        elif inst == ins('block_start'):
-            self.push(self.pc)
-            self.pc += 1
-        elif inst == ins('block_end'):
-            if self.memory[self.dc] != 0:
-                self.pc = self.pop()
-            else:
-                self.pc += 1
+            self.dc %= len(self.data)
+        elif inst.op == ord(WRITE):
+            stdout.write(chr(self.data[self.dc]))
+        elif inst.op == ord(READ):
+            self.data[self.dc] = ord(stdin.read(1)) % 0xff
+        elif inst.op == ord(JMP_ZERO):
+            if self.data[self.dc] == 0:
+                self.pc = inst.arg
+        elif inst.op == ord(JMP_NZERO):
+            if self.data[self.dc] != 0:
+                self.pc = inst.arg
         else:
-            raise ValueError(f"undefined instruction {Insts_Type(inst).name}")
+            raise ValueError(f"invalid intruction {inst}")
 
-        self.pc %= len(self.program)
+    def run(self):
+        while self.pc < len(self.program):
+            self.step()
 
-class Insts_Type(Enum):
-    halt = 0
+def compile_bf(source: str) -> list[Op]:
+    tokens = [ c for c in source if c in '+-<>,.[]' ] # tokenizer
 
-    left = auto()
-    right = auto()
+    back_patch_stack = []
+    result: list[Op] = []
 
-    inc = auto()
-    dec = auto()
-
-    block_start = auto()
-    block_end = auto()
-
-    int_input = auto()
-    int_output = auto()
-    int_output_int = auto()
-
-def ins(name):
-    return Insts_Type[name].value
-
-
-def compile_bf(program: str):
-    result = []
-
-    for c in program:
-        match c:
-            case '+':
-                result.append(ins('inc'))
-            case '-':
-                result.append(ins('dec'))
-            case '>':
-                result.append(ins('left'))
-            case '<':
-                result.append(ins('right'))
+    for addr, char in enumerate(tokens):
+        match char:
+            case '+' | '-' | '<' | '>' | '.' | ',':
+                result.append(Op(op=ord(char)))
             case '[':
-                result.append(ins('block_start'))
+                back_patch_stack.append(addr)
+                result.append(Op(op=ord(JMP_ZERO)))
             case ']':
-                result.append(ins('block_end'))
-            case '.':
-                result.append(ins('int_output'))
-            case ':':
-                result.append(ins('int_output_int'))
-            case ',':
-                result.append(ins('int_input'))
-            case '!':
-                result.append(ins('halt'))
-            case _:
-                raise ValueError(f"malformed program, invalid instruction '{c}'")
+                pair = back_patch_stack.pop()
+                result[pair].arg = addr
+                result.append(Op(op=ord(JMP_NZERO), arg=pair))
 
     return result
 
+hello = '''
+++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+'''
+
+# with open('life.b') as f:
+#     program = compile_bf(f.read())
+
+program = compile_bf(hello)
+
 machine = Machine()
-counter = '++++++++++++++++++++++++++++++++++>+++++++++++++++++++++++++++++++++++[<+>-]<:!'
-
-def l2bf(c):
-    return ord(c) * '+'
-
-hello = l2bf('h') + '.>' + l2bf('e') + '.!'
-bf = hello
-program = compile_bf(bf)
-
-with open('bf.bin', 'wb') as f:
-    f.write(bytes(program))
-
-def main():
-    with open('bf.bin', 'rb') as f:
-        machine.program = list(f.read())
-
-    while not machine.halt:
-        machine.step()
-    print()
-
-if __name__ == '__main__':
-    main()
+machine.program = program
+machine.run()
