@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from sys import stdin, stdout
+import struct
 
 INC = '+'
 DEC = '-'
@@ -10,57 +11,67 @@ READ = ','
 JMP_ZERO = '['
 JMP_NZERO = ']'
 
+data = [0] * (2 << 20)
+dc: int = 0
+
+program = []
+pc: int = 0
+
 @dataclass
 class Op:
     op: int
     arg: int | None = None
 
-@dataclass
-class Machine:
-    data = [0] * (2 << 20)
-    dc: int = 0
+    def encode(self):
+        if self.op in [ord(c) for c in [INC, DEC, LEFT, RIGHT, WRITE, READ]]:
+            return struct.pack('>B', self.op)
+        elif self.op in [ord(c) for c in [JMP_ZERO, JMP_NZERO]]:
+            return struct.pack('>BQ', self.op, self.arg)
 
-    program = []
-    pc: int = 0
 
-    def step(self):
-        assert self.pc < len(self.program)
+def step():
+    global data
+    global dc
+    global program
+    global pc
 
-        # fetch
-        inst = self.program[self.pc]
-        self.pc += 1
+    assert pc < len(program)
 
-        # execute
-        if inst.op == ord(INC):
-            self.data[self.dc] += 1
-            self.data[self.dc] %= 0xff
-        elif inst.op == ord(DEC):
-            self.data[self.dc] -= 1
-            self.data[self.dc] %= 0xff
-        elif inst.op == ord(LEFT):
-            self.dc -= 1
-            self.dc %= len(self.data)
-        elif inst.op == ord(RIGHT):
-            self.dc += 1
-            self.dc %= len(self.data)
-        elif inst.op == ord(WRITE):
-            stdout.write(chr(self.data[self.dc]))
-        elif inst.op == ord(READ):
-            self.data[self.dc] = ord(stdin.read(1)) % 0xff
-        elif inst.op == ord(JMP_ZERO):
-            if self.data[self.dc] == 0:
-                self.pc = inst.arg
-        elif inst.op == ord(JMP_NZERO):
-            if self.data[self.dc] != 0:
-                self.pc = inst.arg
-        else:
-            raise ValueError(f"invalid intruction {inst}")
+    # fetch
+    inst = program[pc]
+    pc += 1
 
-    def run(self):
-        while self.pc < len(self.program):
-            self.step()
+    # execute
+    if inst.op == ord(INC):
+        data[dc] += 1
+        data[dc] %= 0xff
+    elif inst.op == ord(DEC):
+        data[dc] -= 1
+        data[dc] %= 0xff
+    elif inst.op == ord(LEFT):
+        dc -= 1
+        dc %= len(data)
+    elif inst.op == ord(RIGHT):
+        dc += 1
+        dc %= len(data)
+    elif inst.op == ord(WRITE):
+        stdout.write(chr(data[dc]))
+    elif inst.op == ord(READ):
+        data[dc] = ord(stdin.read(1)) % 0xff
+    elif inst.op == ord(JMP_ZERO):
+        if data[dc] == 0:
+            pc = inst.arg
+    elif inst.op == ord(JMP_NZERO):
+        if data[dc] != 0:
+            pc = inst.arg
+    else:
+        raise ValueError(f"invalid intruction {inst}")
 
-def compile_bf(source: str) -> list[Op]:
+def run():
+    while pc < len(program):
+        step()
+
+def compile(source: str) -> list[Op]:
     tokens = [ c for c in source if c in '+-<>,.[]' ] # tokenizer
 
     back_patch_stack = []
@@ -80,15 +91,18 @@ def compile_bf(source: str) -> list[Op]:
 
     return result
 
+def compile_file(path: str) -> list[Op]:
+    with open(path, 'r') as f:
+        return compile_bf(f.read())
+
+def encode(source: str) -> bytes:
+    ops = compile_bf(source)
+
+    return b''.join([op.encode() for op in ops])
+
 hello = '''
 ++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
 '''
 
-# with open('life.b') as f:
-#     program = compile_bf(f.read())
-
-program = compile_bf(hello)
-
-machine = Machine()
-machine.program = program
-machine.run()
+program = compile(hello)
+run()
