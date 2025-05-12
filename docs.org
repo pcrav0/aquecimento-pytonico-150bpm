@@ -1,0 +1,30 @@
+* ferramentas
+- [[https://mypy.readthedocs.io/en/stable/getting_started.html][mypy - static analizer]]
+- [[https://docs.python.org/3/library/pdb.html][pdb - python debugger]]
+- [[https://docs.basedpyright.com/latest/][basedpyright - python lsp]]
+
+* metodos
+- [[https://en.wikipedia.org/wiki/Rubber_duck_debugging][Rubber duck debugging]]
+
+* videos
+- [[https://www.youtube.com/watch?v=2qV-1JhxWeE][vm]]
+
+* ?
+- [[https://en.wikipedia.org/wiki/Conway's_Game_of_Life][gol]]
+- https://wiki.python.org/moin/BeginnersGuide
+- https://en.wikipedia.org/wiki/Approximate_string_matching
+- https://en.wikipedia.org/wiki/Brainfuck
+  https://www.brainfuck.org/
+- https://docs.python.org/3/library/struct.html
+- https://en.wikipedia.org/wiki/Just-in-time_compilation
+
+* parsing
+- https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form
+
+** recursive desendent
+- https://www.youtube.com/watch?v=MnctEW1oL-E
+- https://en.wikipedia.org/wiki/Recursive_descent_parser
+
+* meta
+- https://inv.nadeko.net/watch?v=yWzMiaqnpkI&listen=false
+- https://inv.nadeko.net/watch?__goaway_challenge=meta-refresh&__goaway_id=4865d7869d7342ccff19b50600a5ee3a&__goaway_referer=https%3A%2F%2Finv.nadeko.net%2Fwatch%3Fv%3DgZjcsrjBIVs&listen=false&v=sPiWg5jSoZI
