@@ -2,14 +2,14 @@ from dataclasses import dataclass
 from sys import stdin, stdout
 import struct
 
-INC = '+'
-DEC = '-'
-LEFT = '<'
-RIGHT = '>'
-WRITE = '.'
-READ = ','
-JMP_ZERO = '['
-JMP_NZERO = ']'
+INC = ord('+')
+DEC = ord('-')
+LEFT = ord('<')
+RIGHT = ord('>')
+WRITE = ord('.')
+READ = ord(',')
+JMP_ZERO = ord('[')
+JMP_NZERO = ord(']')
 
 data = [0] * (2 << 20)
 dc: int = 0
@@ -23,9 +23,9 @@ class Op:
     arg: int | None = None
 
     def encode(self):
-        if self.op in [ord(c) for c in [INC, DEC, LEFT, RIGHT, WRITE, READ]]:
+        if self.op in [INC, DEC, LEFT, RIGHT, WRITE, READ]:
             return struct.pack('>B', self.op)
-        elif self.op in [ord(c) for c in [JMP_ZERO, JMP_NZERO]]:
+        elif self.op in [JMP_ZERO, JMP_NZERO]:
             return struct.pack('>BQ', self.op, self.arg)
 
 
@@ -42,26 +42,26 @@ def step():
     pc += 1
 
     # execute
-    if inst.op == ord(INC):
+    if inst.op == INC:
         data[dc] += 1
         data[dc] %= 0xff
-    elif inst.op == ord(DEC):
+    elif inst.op == DEC:
         data[dc] -= 1
         data[dc] %= 0xff
-    elif inst.op == ord(LEFT):
+    elif inst.op == LEFT:
         dc -= 1
         dc %= len(data)
-    elif inst.op == ord(RIGHT):
+    elif inst.op == RIGHT:
         dc += 1
         dc %= len(data)
-    elif inst.op == ord(WRITE):
+    elif inst.op == WRITE:
         stdout.write(chr(data[dc]))
-    elif inst.op == ord(READ):
+    elif inst.op == READ:
         data[dc] = ord(stdin.read(1)) % 0xff
-    elif inst.op == ord(JMP_ZERO):
+    elif inst.op == JMP_ZERO:
         if data[dc] == 0:
             pc = inst.arg
-    elif inst.op == ord(JMP_NZERO):
+    elif inst.op == JMP_NZERO:
         if data[dc] != 0:
             pc = inst.arg
     else:
@@ -83,11 +83,11 @@ def compile(source: str) -> list[Op]:
                 result.append(Op(op=ord(char)))
             case '[':
                 back_patch_stack.append(addr)
-                result.append(Op(op=ord(JMP_ZERO)))
+                result.append(Op(op=JMP_ZERO))
             case ']':
                 pair = back_patch_stack.pop()
                 result[pair].arg = addr
-                result.append(Op(op=ord(JMP_NZERO), arg=pair))
+                result.append(Op(op=JMP_NZERO, arg=pair))
 
     return result
 
