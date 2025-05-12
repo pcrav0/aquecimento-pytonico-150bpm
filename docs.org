@@ -28,3 +28,15 @@
 * meta
 - https://inv.nadeko.net/watch?v=yWzMiaqnpkI&listen=false
 - https://inv.nadeko.net/watch?__goaway_challenge=meta-refresh&__goaway_id=4865d7869d7342ccff19b50600a5ee3a&__goaway_referer=https%3A%2F%2Finv.nadeko.net%2Fwatch%3Fv%3DgZjcsrjBIVs&listen=false&v=sPiWg5jSoZI
+
+* web
+#+begin_src shell
+  flask --app web run --debug
+#+end_src
+
+- https://www.youtube.com/watch?v=bMUQkhi1V84
+- https://flask.palletsprojects.com/en/stable/
+- https://docs.python.org/3/library/sqlite3.html
+
+* kata
+https://www.codewars.com/
