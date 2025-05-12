@@ -3,13 +3,13 @@
 pkgs.mkShell {
   buildInputs = with pkgs; [
 	  python313
-	  python313Packages.pygame-ce
 	  python313Packages.isort
+
+	  python313Packages.pygame-ce
 	  SDL
-	  # SDL2_mixer
-	  # SDL2_image
-	  # SDL2_ttf
-	  # SDL2_gfx
+
+	  python313Packages.flask
+    sqlite
 
     # keep this line if you use bash
     pkgs.bashInteractive

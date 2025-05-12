@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="static/reset.css">
+		<link rel="stylesheet" href="static/main.css">
+	</head>
+	<body>
+		<h1>crud da massa</h1>
+		<img src="static/spaghetti.jpg" width="300"/>
+
+		<form method="post" action="post">
+			<label for="name">nome: </label><br/>
+			<input type="text" name="name"/><br/>
+			<label for="text">menssagem: </label><br/>
+			<input type="text" name="text"/><br/>
+			<input type="submit" value="enviar">
+		</form>
+
+		{% for post in posts %}
+		<h2>{{post.name}}</h2>
+		<p>{{post.text}}</p><br/>
+		<hl/>
+		{% endfor %}
+	</body>
+</html>
