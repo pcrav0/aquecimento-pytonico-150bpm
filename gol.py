@@ -39,8 +39,7 @@ while running:
                 pause = not pause
             elif event.key == pygame.K_e:
                 breakpoint()
-
-        if pygame.mouse.get_pressed()[0]:
+        elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             pos = math.floor(pos[0] / width_factor), math.floor(pos[1] / height_factor)
             grid[pos[1]][pos[0]] = not grid[pos[1]][pos[0]]
