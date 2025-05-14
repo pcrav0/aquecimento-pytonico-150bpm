@@ -1,12 +1,277 @@
+#+title docs
+#+property: header-args :results output
+
+* introdução
+
+** repl
+#+begin_src python
+  while True:
+      print(eval(input()))
+#+end_src
+
+** comentários
+#+begin_src python
+  # comenta uma linha inteira
+
+  """
+  múltiplas
+  linhas
+  de
+  comentário
+  """
+#+end_src
+
+** básico
+#+begin_src python
+  # variáveis
+
+  a = 3
+  b = 5
+
+  # chamada de função
+  # <nome da função>()
+  # <nome da função>(<arg1>)
+  # <nome da função>(<arg1>, <arg2>, ...)
+
+  # funções básicas
+
+  print(a) # imprime o valor de 'a' no terminal
+  dir(a) # retorna uma lista contendo todos os `atributos` do `tipo` de 'a'
+  help(a) # mostro a documentação da to `tipo` de 'a'
+
+  # chamada de método / atributos
+  # <obj>.<metodo>()
+  # <obj>.<metodo>(<arg1>)
+  # <obj>.<metodo>(<arg1>, <arg2>, ...)
+
+  # se dir(a) me diz que existe um atributo chamdo 'to_bytes' logo:
+  print(a.to_bytes())
+#+end_src
+
+#+RESULTS:
+: 3
+: b'\x03'
+
+para mais informação sobre o resto das funções básicas de python [[https://docs.python.org/3/library/functions.html][link]]
+
+** bool
+#+begin_src python :results output
+  print(True)
+  print(False)
+#+end_src
+
+#+RESULTS:
+: True
+: False
+
+*** manipulação
+#+begin_src python
+  print(dir(True))
+  print(not True) # negação
+  print(not not True) # indenidade (juro que vai ser útil daqui a pouco)
+
+  # pesquisar sobre: "short circuit"
+  print(True and False)
+  print(True or False)
+
+  print(True == False) # igual a
+  print(True != False) # diferente de
+#+end_src
+
+** números
+#+begin_src python
+  print(69) # inteiro
+  print(13.37) # ponto flutuante
+  print(34 + 35j) # complexo
+
+  # negativo
+
+  -69
+  -13.37
+  -34 + -35j
+
+  # inf + nan
+  # para mais info sobre o assunto: IEEE754 32 bits / 64 bits
+  print(complex('-Infinity+NaNj'))
+  print(float('Infinity'))
+  print(float('-inf'))
+  print(float('nan') != float('nan'))
+#+end_src
+
+#+RESULTS:
+: 69
+: 13.37
+: (34+35j)
+: (-inf+nanj)
+: inf
+: -inf
+: True
+
+*** manipulação
+#+begin_src python
+  print(3 + 2)
+  print(3 - 2)
+  print(3 / 2) # float
+  print(3 // 2) # int (floor division)
+  print(3 * 2)
+  print(3 ** 2) # potencia
+  print(3 % 2) # modulo
+
+  print(3 & 2) # and
+  print(3 | 2) # or
+  print(3 ^ 2) # xor
+  print(3 >> 2) # shift left
+  print(3 << 2) # shift right
+
+  a = 5
+  a += 4 # operador + atribuição
+  # o mesmo que `a = a + 2`
+  print(a) # tem q ser 9
+#+end_src
+
+#+RESULTS:
+#+begin_example
+5
+1
+1.5
+1
+6
+9
+1
+2
+3
+1
+0
+12
+9
+#+end_example
+
+** texto
+#+begin_src python
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+  "Aliquam porta viverra lectus eget suscipit."
+
+  # multiplas linhas
+  '''
+  Duis pharetra in justo eget tempor.
+  Duis ultricies tincidunt nibh, ut dictum arcu sagittis quis.
+  Proin magna massa, pellentesque vel condimentum ut, volutpat id nisl.
+  Ut mollis convallis augue, eget dapibus turpis faucibus vel.
+  Suspendisse potenti.
+  Nullam aliquet arcu et urna consequat sollicitudin.
+  Cras turpis urna, sollicitudin non sapien ut, gravida malesuada magna.
+  Nunc tempor condimentum augue ut volutpat.
+  Curabitur laoreet placerat maximus.
+  Cras massa ligula, pellentesque ut nibh a, molestie ultrices mi.
+  Fusce facilisis eros nulla, id condimentum lorem aliquam nec.
+  '''
+
+  """
+  Nulla vehicula tellus neque, ac varius tellus ultrices ac.
+  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+  Curabitur ac aliquet ante, vel ultricies arcu.
+  Ut eget ultrices massa.
+  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+  Sed iaculis metus ac nunc congue, eget pretium leo imperdiet.
+  Integer posuere, eros aliquet rutrum lacinia, justo ex condimentum quam, et efficitur ex nisl in elit.
+  Sed lectus est, tempor vitae pellentesque eu, imperdiet non mi.
+  """
+
+  # f-string https://devdocs.io/python~3.13/reference/lexical_analysis#f-strings
+  a = 5
+  print(f'a + 2 = {a + 2}') # o codigo dentro de '{}' sera validado
+
+  # para mais prefixos: https://devdocs.io/python~3.13/reference/lexical_analysis#string-and-bytes-literals
+#+end_src
+
+** listas
+
+a ordem dos elementos é importante
+
+#+begin_src python
+  print(not not []) # falsy
+  print([1,2,3]) # homogêneo (mesmo tipo)
+  print([1, 2, None]) # heterogêneo (tipos diferentes)
+#+end_src
+
+#+RESULTS:
+: False
+: [1, 2, 3]
+: [1, 2, None]
+
+** conjuntos
+todos os elementos dentro de um conjunto são únicos,
+a ordem em que os elementos estão não importa.
+
+um elemento se pode fazer parte de um conjunto se ele for "único",
+em python isso é representado por um elemento ter o método "__hash__"
+
+#+begin_src python
+  print(not not {}) # falsy
+  print({5, 2, 6, 1}) # homogêneo
+  print({5, '???', 0.2, None}) # heterogêneo
+#+end_src
+
+#+RESULTS:
+: False
+: {1, 2, 5, 6}
+
+*** TODO como fazer uma função de hash + oque é uma função de hash, para oque ela serve?
+- https://en.wikipedia.org/wiki/Hash_function
+- https://en.wikipedia.org/wiki/Entropy_(information_theory)
+- https://en.wikipedia.org/wiki/Huffman_coding
+
+** dicionários
+um dicionário é utilizado para associar um valor a outro, associar uma "chave" a um elemento.
+o funcionamento é muito parecido de uma função no em matemática ([[https://en.wikipedia.org/wiki/Function_(mathematics)][wiki]]) onde é
+associado um conjunto de valores a outro conjunto
+
+#+begin_src python
+  print(not not {})
+  print({
+      'a': 3,
+      5: [1,2,3,4],
+      0.2: {
+          'mais um dicionario': 'dentro de outro dicionario',
+      }
+  })
+#+end_src
+
+** especial
+#+begin_src python
+  ... # Ellipsis truthy
+  None # falsy
+  object()
+#+end_src
+
+** conclusão dos valores
+para todos os tipos diferentes de valores encontrados em python é possível
+saber mais sobre eles utilizando dir(<valor>) ou help(<valor>)
+
+** controle de fluxo
+*** if
+*** match
+*** while
+**** break
+**** continue
+*** for
+
+** composição
+*** def
+*** class
+
+* meta
+- git
+- gerenciamento de dependencias (nix, python venv)
 * ferramentas
 - [[https://mypy.readthedocs.io/en/stable/getting_started.html][mypy - static analizer]]
 - [[https://docs.python.org/3/library/pdb.html][pdb - python debugger]]
 - [[https://docs.basedpyright.com/latest/][basedpyright - python lsp]]
 
-* metodos
+* métodos
 - [[https://en.wikipedia.org/wiki/Rubber_duck_debugging][Rubber duck debugging]]
 
-* videos
+* vídeos
 - [[https://www.youtube.com/watch?v=2qV-1JhxWeE][vm]]
 
 * ?
