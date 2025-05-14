@@ -7,10 +7,14 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    print('index db = ', db())
-    cur = db().cursor()
-    posts = list(cur.execute('SELECT * FROM posts'))
-    return render_template('index.html', posts=posts)
+    with app.app_context():
+        con = db_get()
+        cur = con.cursor()
+        posts = cur.execute('SELECT * FROM posts').fetchall()
+        print(f'{posts=}')
+        response = render_template('index.html', posts=posts)
+        con.commit()
+        return response
 
 @app.route('/login')
 def login():
@@ -18,13 +22,14 @@ def login():
 
 @app.post('/post')
 def post():
-    name = escape(request.form['name'])
-    text = escape(request.form['text'])
-    print('post db = ', db())
-    cur = db().cursor()
-    p = cur.execute('INSERT INTO posts VALUES(?, ?)', (name, text))
-    print('insert', p.fetchall())
-    return redirect(url_for('index'))
+    with app.app_context():
+        name = escape(request.form['name'])
+        text = escape(request.form['text'])
+        con = db_get()
+        cur = con.cursor()
+        cur.execute('INSERT INTO posts VALUES(?, ?)', (name, text))
+        con.commit()
+        return redirect(url_for('index'))
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -34,7 +39,7 @@ def page_not_found(error):
 
 DATABASE = 'db/database'
 
-def db():
+def db_get() -> sqlite3.Connection:
     result = getattr(g, '_database', None)
     if result is None:
         result = g._database = sqlite3.connect(DATABASE)
