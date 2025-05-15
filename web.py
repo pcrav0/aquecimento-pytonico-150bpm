@@ -7,11 +7,6 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 02bd930 (mais flask)
     with app.app_context():
         con = db_get()
         cur = con.cursor()
@@ -20,20 +15,6 @@ def index():
         response = render_template('index.html', posts=posts)
         con.commit()
         return response
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
-    print('index db = ', db())
-    cur = db().cursor()
-    posts = list(cur.execute('SELECT * FROM posts'))
-    return render_template('index.html', posts=posts)
-<<<<<<< HEAD
->>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
-=======
->>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
-=======
->>>>>>> 02bd930 (mais flask)
 
 @app.route('/login')
 def login():
@@ -41,11 +22,6 @@ def login():
 
 @app.post('/post')
 def post():
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 02bd930 (mais flask)
     with app.app_context():
         name = escape(request.form['name'])
         text = escape(request.form['text'])
@@ -54,23 +30,6 @@ def post():
         cur.execute('INSERT INTO posts VALUES(?, ?)', (name, text))
         con.commit()
         return redirect(url_for('index'))
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
-    name = escape(request.form['name'])
-    text = escape(request.form['text'])
-    print('post db = ', db())
-    cur = db().cursor()
-    p = cur.execute('INSERT INTO posts VALUES(?, ?)', (name, text))
-    print('insert', p.fetchall())
-    return redirect(url_for('index'))
-<<<<<<< HEAD
->>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
-=======
->>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
-=======
->>>>>>> 02bd930 (mais flask)
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -80,19 +39,7 @@ def page_not_found(error):
 
 DATABASE = 'db/database'
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 def db_get() -> sqlite3.Connection:
-=======
-def db():
->>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
-=======
-def db():
->>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
-=======
-def db_get() -> sqlite3.Connection:
->>>>>>> 02bd930 (mais flask)
     result = getattr(g, '_database', None)
     if result is None:
         result = g._database = sqlite3.connect(DATABASE)
