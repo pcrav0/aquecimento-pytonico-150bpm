@@ -569,9 +569,12 @@ ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[http
 #+end_src
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - https://www.youtube.com/watch?v=bMUQkhi1V84
 =======
 >>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
+=======
+>>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
 - https://flask.palletsprojects.com/en/stable/
 - https://docs.python.org/3/library/sqlite3.html
 
