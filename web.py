@@ -9,6 +9,9 @@ app = Flask(__name__)
 def index():
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 02bd930 (mais flask)
     with app.app_context():
         con = db_get()
         cur = con.cursor()
@@ -17,6 +20,7 @@ def index():
         response = render_template('index.html', posts=posts)
         con.commit()
         return response
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
@@ -28,6 +32,8 @@ def index():
 >>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
 =======
 >>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
+=======
+>>>>>>> 02bd930 (mais flask)
 
 @app.route('/login')
 def login():
@@ -37,6 +43,9 @@ def login():
 def post():
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 02bd930 (mais flask)
     with app.app_context():
         name = escape(request.form['name'])
         text = escape(request.form['text'])
@@ -45,6 +54,7 @@ def post():
         cur.execute('INSERT INTO posts VALUES(?, ?)', (name, text))
         con.commit()
         return redirect(url_for('index'))
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
@@ -59,6 +69,8 @@ def post():
 >>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
 =======
 >>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
+=======
+>>>>>>> 02bd930 (mais flask)
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -70,6 +82,7 @@ DATABASE = 'db/database'
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 def db_get() -> sqlite3.Connection:
 =======
 def db():
@@ -77,6 +90,9 @@ def db():
 =======
 def db():
 >>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
+=======
+def db_get() -> sqlite3.Connection:
+>>>>>>> 02bd930 (mais flask)
     result = getattr(g, '_database', None)
     if result is None:
         result = g._database = sqlite3.connect(DATABASE)
