@@ -215,6 +215,17 @@ a lista é mutável.
   # slice
 
   print(a[2:4])
+  # para mais prefixos: https://devdocs.io/python~3.13/reference/lexical_analysis#string-and-bytes-literals
+#+end_src
+
+** listas
+
+a ordem dos elementos é importante
+
+#+begin_src python
+  print(not not []) # falsy
+  print([1,2,3]) # homogêneo (mesmo tipo)
+  print([1, 2, None]) # heterogêneo (tipos diferentes)
 #+end_src
 
 #+RESULTS:
@@ -261,6 +272,10 @@ parecido com uma lista, mas imutável.
 parecido com uma lista, mas imutável.
 todos os elementos dentro de um conjunto são únicos,
 diferente de uma lista ou uma tupla os elementos não tem uma "ordem" sequencial.
+
+** conjuntos
+todos os elementos dentro de um conjunto são únicos,
+a ordem em que os elementos estão não importa.
 
 um elemento se pode fazer parte de um conjunto se ele for "único",
 em python isso é representado por um elemento ter o método "__hash__"
@@ -330,6 +345,15 @@ associado um conjunto de valores a outro conjunto
 : Ellipsis
 : None
 : <object object at 0x7f128ed802a0>
+
+#+end_src
+
+** especial
+#+begin_src python
+  ... # Ellipsis truthy
+  None # falsy
+  object()
+#+end_src
 
 ** conclusão dos valores
 para todos os tipos diferentes de valores encontrados em python é possível
@@ -528,6 +552,15 @@ fazer com uma classe e/ou uma instancia de uma classe.
 
 
 ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[https://www.youtube.com/watch?v=QM1iUe6IofM][como te explicar]]?
+*** match
+*** while
+**** break
+**** continue
+*** for
+
+** composição
+*** def
+*** class
 
 * meta
 - git
