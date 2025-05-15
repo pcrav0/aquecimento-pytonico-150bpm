@@ -15,6 +15,7 @@ def index():
         response = render_template('index.html', posts=posts)
         con.commit()
         return response
+
 @app.route('/login')
 def login():
     return render_template('login.html')

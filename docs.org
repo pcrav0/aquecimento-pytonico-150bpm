@@ -202,8 +202,22 @@ a ordem dos elementos é importante
 
 #+begin_src python
   print(not not []) # falsy
-  print([1,2,3]) # homogêneo (mesmo tipo)
-  print([1, 2, None]) # heterogêneo (tipos diferentes)
+  print([1,2,3]) # homogêneo
+  print([1, 2, 3, 'a', 'b', 'c']) # heterogêneo
+
+  # spread
+  a = [5,2,8,4,4,4,4]
+  print(*a)
+  print([1, *a, 0])
+
+  # mutável
+
+  a[0] = 6
+  print(a)
+
+  # slice
+
+  print(a[2:4])
 #+end_src
 
 #+RESULTS:
