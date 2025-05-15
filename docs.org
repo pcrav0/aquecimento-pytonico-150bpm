@@ -221,14 +221,32 @@ a lista é mutável.
   # para mais prefixos: https://devdocs.io/python~3.13/reference/lexical_analysis#string-and-bytes-literals
 #+end_src
 
-** listas
+#+RESULTS:
+: a + 2 = 7
+: o l a
 
-a ordem dos elementos é importante
+** lista
+uma lista é uma forma de estruturar de dados em uma sequência ordenada,
+a lista é mutável.
 
 #+begin_src python
   print(not not []) # falsy
-  print([1,2,3]) # homogêneo (mesmo tipo)
-  print([1, 2, None]) # heterogêneo (tipos diferentes)
+  print([1,2,3]) # homogêneo
+  print([1, 2, 3, 'a', 'b', 'c']) # heterogêneo
+
+  # spread
+  a = [5,2,8,4,4,4,4]
+  print(*a)
+  print([1, *a, 0])
+
+  # mutável
+
+  a[0] = 6
+  print(a)
+
+  # slice
+
+  print(a[2:4])
 #+end_src
 
 #+RESULTS:
@@ -277,8 +295,9 @@ todos os elementos dentro de um conjunto são únicos,
 diferente de uma lista ou uma tupla os elementos não tem uma "ordem" sequencial.
 
 ** conjuntos
+parecido com uma lista, mas imutável.
 todos os elementos dentro de um conjunto são únicos,
-a ordem em que os elementos estão não importa.
+diferente de uma lista ou uma tupla os elementos não tem uma "ordem" sequencial.
 
 um elemento se pode fazer parte de um conjunto se ele for "único",
 em python isso é representado por um elemento ter o método "__hash__"
@@ -351,12 +370,24 @@ associado um conjunto de valores a outro conjunto
 
 #+end_src
 
+#+RESULTS:
+: False
+: {'a': 3, 5: [1, 2, 3, 4], 0.2: {'mais um dicionario': 'dentro de outro dicionario'}}
+: [5, 'a', 'b', 'c', 6, 7]
+: {'c', 'a', 'b', 'z'}
+: {'d': 4, 'a': 1, 'b': 69, 'c': 3}
+
 ** especial
 #+begin_src python
-  ... # Ellipsis truthy
-  None # falsy
-  object()
+  print(...) # Ellipsis truthy
+  print(None) # falsy
+  print(object())
 #+end_src
+
+#+RESULTS:
+: Ellipsis
+: None
+: <object object at 0x7f128ed802a0>
 
 ** conclusão dos valores
 para todos os tipos diferentes de valores encontrados em python é possível
@@ -797,14 +828,178 @@ prefira composição em vez de herança
 
 ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[https://www.youtube.com/watch?v=QM1iUe6IofM][como te explicar]]?
 *** match
+'if' mais esperto???
+
+#+begin_src python
+  a = False
+  match (100, 200):
+     case (100, 300): # falso no segundo caso
+         print('a')
+     case (100, 200) if a: # condições adicionais
+         print('b')
+     case (100, y): # se o primeiro valor da tupla for '100', então o segundo valor é atribuído a 'y'
+         print(f'c {y}')
+     case _:  # sem padrão, "else"
+         print('d')
+#+end_src
+
+#+RESULTS:
+: c 200
+
 *** while
+#+begin_src python
+  a = 1
+  while a < 7:
+      print(a)
+      a += 1
+#+end_src
+
+#+RESULTS:
+: 1
+: 2
+: 3
+: 4
+: 5
+: 6
+
 **** break
+#+begin_src python
+  a = 1
+  while a < 7:
+      if a == 4:
+          break
+      print(a)
+      a += 1
+#+end_src
+
+#+RESULTS:
+: 1
+: 2
+: 3
+
 **** continue
+#+begin_src python
+  a = 1
+  while a < 7:
+      a += 1
+      if a % 2 == 0:
+          continue
+      print(a)
+#+end_src
+
+#+RESULTS:
+: 3
+: 5
+: 7
+
 *** for
+percorre sobre todos os elementos de um [[https://devdocs.io/python~3.13/glossary#term-iterable][iterável]].
+as mesmas regras de 'break' e 'continue' se aplicam aqui.
+
+#+begin_src python
+  for n in [1,2,3,4,5]:
+      print(n)
+#+end_src
+
+#+RESULTS:
+: 1
+: 2
+: 3
+: 4
+: 5
+
+*** try/except/finally/raise
+algumas operações em python podem resultar em um "erro".
+esses erros por padram terminam a execução do programa.
+
+#+begin_src python
+  print(5 / 0)
+#+end_src
+
+mas eles podem ser "capturados".
+
+#+begin_src python
+  try:
+      print(5 / 0)
+  except ZeroDivisionError as e:
+      print(f":< `{e}`")
+#+end_src
+
+é possível "jogar" um erro:
+
+#+begin_src python
+  raise Exception('???')
+#+end_src
+
+**** ALERTA DE OPINIÃO :O
+essa é a pior forma possível de tratar erros, apenas use [[https://www.inngest.com/blog/python-errors-as-values][valores como erros]].
+
+*** pass
+não faz nada, emocionante
+
+#+begin_src python
+  if True:
+      pass
+#+end_src
 
 ** composição
-*** def
+*** def / lambda
+define funções.
+
+separar blocos de código para ser utilizado varias vezes.
+
+#+begin_src python
+  def f():
+      print('aquecimento pytonico 150bpm')
+
+  f()
+  f()
+  f()
+#+end_src
+
+#+RESULTS:
+: aquecimento pytonico 150bpm
+: aquecimento pytonico 150bpm
+: aquecimento pytonico 150bpm
+
+parametrizar partes do código.
+
+#+begin_src python
+  def parametros(a, b):
+      return a * b
+
+  print(parametros(3, 2))
+  print(parametros('A', 10))
+#+end_src
+
+#+RESULTS:
+: 6
+: AAAAAAAAAA
+
+#+begin_src python
+  def mais_parametros(arg1, arg2, *args, **kwargs):
+      print(arg1, arg2)
+      print(args)
+      print(kwargs)
+
+  mais_parametros('primeiro', 'segundo',
+                  1, 2, 'a', [6, 9],
+                  a=1, b=2, c=4)
+#+end_src
+
+#+RESULTS:
+: primeiro segundo
+: (1, 2, 'a', [6, 9])
+: {'a': 1, 'b': 2, 'c': 4}
+
+isso não esgota tudo oque é possível de ser feito com [[https://en.wikipedia.org/wiki/Lambda_calculus][funções]], e nunca vai.
+
 *** class
+eu não pretendo esgotar todas as possibilidades de utilização do que se pode
+fazer com uma classe e/ou uma instancia de uma classe.
+
+
+ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[https://www.youtube.com/watch?v=QM1iUe6IofM][como te explicar]]?
 
 ** meta
 - https://docs.python.org/3/tutorial/classes.html#inheritance
