@@ -181,6 +181,7 @@ para mais informação sobre o resto das funções básicas de python [[https://
   a = 5
   print(f'a + 2 = {a + 2}') # o codigo dentro de '{}' sera validado
 
+<<<<<<< HEAD
   # acesso
   s = 'ola :)'
   #       o     l     a
@@ -215,11 +216,25 @@ a lista é mutável.
   # slice
 
   print(a[2:4])
+=======
+  # para mais prefixos: https://devdocs.io/python~3.13/reference/lexical_analysis#string-and-bytes-literals
+#+end_src
+
+** listas
+
+a ordem dos elementos é importante
+
+#+begin_src python
+  print(not not []) # falsy
+  print([1,2,3]) # homogêneo (mesmo tipo)
+  print([1, 2, None]) # heterogêneo (tipos diferentes)
+>>>>>>> 7a24b02 (documentacao)
 #+end_src
 
 #+RESULTS:
 : False
 : [1, 2, 3]
+<<<<<<< HEAD
 : [1, 2, 3, 'a', 'b', 'c']
 : 5 2 8 4 4 4 4
 : [1, 5, 2, 8, 4, 4, 4, 4, 0]
@@ -261,6 +276,13 @@ parecido com uma lista, mas imutável.
 parecido com uma lista, mas imutável.
 todos os elementos dentro de um conjunto são únicos,
 diferente de uma lista ou uma tupla os elementos não tem uma "ordem" sequencial.
+=======
+: [1, 2, None]
+
+** conjuntos
+todos os elementos dentro de um conjunto são únicos,
+a ordem em que os elementos estão não importa.
+>>>>>>> 7a24b02 (documentacao)
 
 um elemento se pode fazer parte de um conjunto se ele for "único",
 em python isso é representado por um elemento ter o método "__hash__"
@@ -269,16 +291,22 @@ em python isso é representado por um elemento ter o método "__hash__"
   print(not not {}) # falsy
   print({5, 2, 6, 1}) # homogêneo
   print({5, '???', 0.2, None}) # heterogêneo
+<<<<<<< HEAD
   print({5, '???', 0.2, None, *[8, 9, 10]})
   print({1,1,1,1,1}) # unico
+=======
+>>>>>>> 7a24b02 (documentacao)
 #+end_src
 
 #+RESULTS:
 : False
 : {1, 2, 5, 6}
+<<<<<<< HEAD
 : {0.2, None, '???', 5}
 : {0.2, None, '???', 5, 8, 9, 10}
 : {1}
+=======
+>>>>>>> 7a24b02 (documentacao)
 
 *** TODO como fazer uma função de hash + oque é uma função de hash, para oque ela serve?
 - https://en.wikipedia.org/wiki/Hash_function
@@ -299,6 +327,7 @@ associado um conjunto de valores a outro conjunto
           'mais um dicionario': 'dentro de outro dicionario',
       }
   })
+<<<<<<< HEAD
 
   # spread
   d = {
@@ -331,12 +360,24 @@ associado um conjunto de valores a outro conjunto
 : None
 : <object object at 0x7f128ed802a0>
 
+=======
+#+end_src
+
+** especial
+#+begin_src python
+  ... # Ellipsis truthy
+  None # falsy
+  object()
+#+end_src
+
+>>>>>>> 7a24b02 (documentacao)
 ** conclusão dos valores
 para todos os tipos diferentes de valores encontrados em python é possível
 saber mais sobre eles utilizando dir(<valor>) ou help(<valor>)
 
 ** controle de fluxo
 *** if
+<<<<<<< HEAD
 verifica se um valor é "thrufy" e executa um trecho de codigo
 
 #+begin_src python
@@ -528,6 +569,17 @@ fazer com uma classe e/ou uma instancia de uma classe.
 
 
 ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[https://www.youtube.com/watch?v=QM1iUe6IofM][como te explicar]]?
+=======
+*** match
+*** while
+**** break
+**** continue
+*** for
+
+** composição
+*** def
+*** class
+>>>>>>> 7a24b02 (documentacao)
 
 * meta
 - git
@@ -570,11 +622,15 @@ ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[http
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 - https://www.youtube.com/watch?v=bMUQkhi1V84
 =======
 >>>>>>> fb4665a (db has a bug, flask.g is not syncronized, i guess, idk)
 =======
 >>>>>>> 635b0ee (db has a bug, flask.g is not syncronized, i guess, idk)
+=======
+- https://www.youtube.com/watch?v=bMUQkhi1V84
+>>>>>>> 7a24b02 (documentacao)
 - https://flask.palletsprojects.com/en/stable/
 - https://docs.python.org/3/library/sqlite3.html
 
