@@ -196,57 +196,14 @@ para mais informação sobre o resto das funções básicas de python [[https://
 : a + 2 = 7
 : o l a
 
-** lista
-uma lista é uma forma de estruturar de dados em uma sequência ordenada,
-a lista é mutável.
+** listas
+
+a ordem dos elementos é importante
 
 #+begin_src python
   print(not not []) # falsy
-  print([1,2,3]) # homogêneo
-  print([1, 2, 3, 'a', 'b', 'c']) # heterogêneo
-
-  # spread
-  a = [5,2,8,4,4,4,4]
-  print(*a)
-  print([1, *a, 0])
-
-  # mutável
-
-  a[0] = 6
-  print(a)
-
-  # slice
-
-  print(a[2:4])
-  # para mais prefixos: https://devdocs.io/python~3.13/reference/lexical_analysis#string-and-bytes-literals
-#+end_src
-
-#+RESULTS:
-: a + 2 = 7
-: o l a
-
-** lista
-uma lista é uma forma de estruturar de dados em uma sequência ordenada,
-a lista é mutável.
-
-#+begin_src python
-  print(not not []) # falsy
-  print([1,2,3]) # homogêneo
-  print([1, 2, 3, 'a', 'b', 'c']) # heterogêneo
-
-  # spread
-  a = [5,2,8,4,4,4,4]
-  print(*a)
-  print([1, *a, 0])
-
-  # mutável
-
-  a[0] = 6
-  print(a)
-
-  # slice
-
-  print(a[2:4])
+  print([1,2,3]) # homogêneo (mesmo tipo)
+  print([1, 2, None]) # heterogêneo (tipos diferentes)
 #+end_src
 
 #+RESULTS:
@@ -288,11 +245,6 @@ parecido com uma lista, mas imutável.
 : 1 2 3 4
 : ('c', 1, 2, 3, 4, 'd')
 : 3
-
-** conjuntos
-parecido com uma lista, mas imutável.
-todos os elementos dentro de um conjunto são únicos,
-diferente de uma lista ou uma tupla os elementos não tem uma "ordem" sequencial.
 
 ** conjuntos
 parecido com uma lista, mas imutável.
@@ -347,27 +299,6 @@ associado um conjunto de valores a outro conjunto
   print([5, *d, 6, 7]) # apenas as 'chaves' em uma lista
   print({'z', *d, 'b', 'z'}) # apenas as 'chaves' em um conjunto
   print({'d': 4, **d}) # dentro de outro dicionário
-#+end_src
-
-#+RESULTS:
-: False
-: {'a': 3, 5: [1, 2, 3, 4], 0.2: {'mais um dicionario': 'dentro de outro dicionario'}}
-: [5, 'a', 'b', 'c', 6, 7]
-: {'c', 'a', 'b', 'z'}
-: {'d': 4, 'a': 1, 'b': 69, 'c': 3}
-
-** especial
-#+begin_src python
-  print(...) # Ellipsis truthy
-  print(None) # falsy
-  print(object())
-#+end_src
-
-#+RESULTS:
-: Ellipsis
-: None
-: <object object at 0x7f128ed802a0>
-
 #+end_src
 
 #+RESULTS:
