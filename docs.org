@@ -577,6 +577,8 @@ toda função tem seu próprio 'escopo', escopo é a visibilidade de cada variá
 : a = 3
 : 5
 
+- https://en.wikipedia.org/wiki/Evaluation_strategy
+
 tente tirar a linha que contem 'global a' para entender oque esta acontecendo.
 
 outros assuntos relacionados:
@@ -801,8 +803,8 @@ ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[http
 *** class
 
 ** meta
-- https://docs.python.org/3/glossary.html#term-decorator
 - https://docs.python.org/3/tutorial/classes.html#inheritance
+- https://docs.python.org/3/glossary.html#term-decorator
 - https://docs.python.org/3/library/dis.html#module-dis
 
 * 2° passo
