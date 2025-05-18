@@ -39,7 +39,7 @@ def page_not_found(error):
 
 DATABASE = 'db/database'
 
-def db():
+def db_get() -> sqlite3.Connection:
     result = getattr(g, '_database', None)
     if result is None:
         result = g._database = sqlite3.connect(DATABASE)
