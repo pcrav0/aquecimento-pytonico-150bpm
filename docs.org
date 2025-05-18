@@ -1006,8 +1006,8 @@ com uma classe é possível criar nosso próprio objeto customizado.
 
   p1 = Player(10, 15, 100)
 
-  print(dir(p1))
-  print(help(p1))
+  # print(dir(p1))
+  # print(help(p1))
 
   print(p1.y)
   p1.jump()
