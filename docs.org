@@ -2,8 +2,11 @@
 #+property: header-args :results output
 
 * introdução
-
 ** repl
+read
+eval
+print
+loop
 #+begin_src python
   while True:
       print(eval(input()))
@@ -605,6 +608,7 @@ com uma classe é possível criar nosso próprio objeto customizado.
       def __init__(self, x, y, healt):
           self.x = x
           self.y = y
+          print('oi')
           self.healt = healt
 
       def jump(self):
@@ -612,8 +616,8 @@ com uma classe é possível criar nosso próprio objeto customizado.
 
   p1 = Player(10, 15, 100)
 
-  print(dir(p1))
-  print(help(p1))
+  # print(dir(p1))
+  # print(help(p1))
 
   print(p1.y)
   p1.jump()
@@ -841,6 +845,8 @@ ah... [[https://en.wikipedia.org/wiki/Object-oriented_programming][OOP]], [[http
 * meta
 - https://inv.nadeko.net/watch?v=yWzMiaqnpkI&listen=false
 - https://inv.nadeko.net/watch?__goaway_challenge=meta-refresh&__goaway_id=4865d7869d7342ccff19b50600a5ee3a&__goaway_referer=https%3A%2F%2Finv.nadeko.net%2Fwatch%3Fv%3DgZjcsrjBIVs&listen=false&v=sPiWg5jSoZI
+- https://www.youtube.com/watch?v=SrKj4hYic5A
+- https://www.youtube.com/watch?v=CVKIpfDqs3I
 
 * web
 #+begin_src shell
